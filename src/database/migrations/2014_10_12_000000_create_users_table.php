@@ -23,7 +23,6 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
-        (new UsersSeeder())->run();
     }
 
     /**
