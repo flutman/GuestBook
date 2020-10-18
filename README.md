@@ -10,13 +10,18 @@
 ## Laravel command helpers
 
 - Установка Laravel `composer global require laravel/installer`
-- Localized Laravel `https://github.com/mcamara/laravel-localization`
-- Widgets Laravel `https://github.com/arrilot/laravel-widgets`
-- Translations in DB Laravel `https://github.com/Astrotomic/laravel-translatable`
 
+## После запуска контейнера
+- Сайт доступен по адресу http://localhost:7777/
+- База данных доступна по адресу http://localhost:7760/
 
-composer create-project --prefer-dist laravel/laravel .
-
-
-
+## Пареметры .env
+```
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=webimar_laravel
+DB_USERNAME=root
+DB_PASSWORD=webimar_laravel 
+````
 
