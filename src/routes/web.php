@@ -14,7 +14,6 @@
 Route::get('/', 'MainController@getIndex')->name('welcome');
 
 Route::resource('posts', 'PostController');
-//Route::post('/post-data', 'PostController@receiveData')->name('postData');
 
 Auth::routes();
 
