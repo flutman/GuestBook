@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Barryvdh\Debugbar\Twig\Extension\Debug;
+use DebugBar\DebugBar;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
@@ -49,6 +52,16 @@ class PostController extends Controller
             $post->user_id = Auth::user()->id;
         }
         $post->save();
+
+        $postResponse = array(
+            "user" => Auth::user() !== null ? Auth::user()->name : "Аноним",
+            "date" => date('M j, Y H:i', strtotime($post->updated_at)),
+            "text" => $post->text,
+            "post_id" => $post->id
+        );
+
+        return response(json_encode($postResponse))
+            ->header('Content-Type', 'application/json');
     }
 
     /**
@@ -70,7 +83,13 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        $postResponse = array(
+            "text" => $post->text,
+            "post_id" => $post->id
+        );
+        return response(json_encode($postResponse))
+            ->header('Content-Type', 'application/json');
     }
 
     /**
@@ -82,7 +101,9 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::find($id);
+        $post->text = $request->input('post_text');;
+        $post->save();
     }
 
     /**
@@ -93,7 +114,13 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (Auth::user() !== null && Post::find($id)->exists()) {
+            Post::find($id)->delete();
+            $postResponse = array("id" => $id);
+            return response(json_encode($postResponse), 200)
+                ->header('Content-Type', 'application/json');
+        }
+        return response(json_encode("post not found"), 404);
     }
 
 }

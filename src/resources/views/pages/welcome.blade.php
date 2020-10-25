@@ -25,15 +25,15 @@
                         <!-- END FORM -->
                     </div>
                 </div>
-                <div class="row"> <!-- POSTS -->
+                <div class="post_list row"> <!-- POSTS -->
                     @if (isset($posts))
 
                         @foreach($posts as $post)
-                        <div class="col-md-12">
+                        <div class="post col-md-12">
                             <div class="row">
-                                <div class="post col-md-8">
+                                <div class="col-md-8">
                                     <h4>{{ isset($post->user) ? $post->user->name : "Аноним"}}</h4>
-                                    <h6>{{ date('M j, Y H:i', strtotime($post->created_at)) }}</h6>
+                                    <h6>{{ date('M j, Y H:i', strtotime($post->updated_at)) }}</h6>
                                     <p>{{ isset($post) ? $post->text : 'Новый пост' }}</p>
                                 </div>
                                 @hasrole('admin')
@@ -41,11 +41,17 @@
                                     <div class="btn-group" role="group" aria-label="...">
                                     {!! Html::linkRoute('posts.edit', 'Редактировать',
                                         array($post->id),
-                                        array('class' => 'btn btn-warning'))
+                                        array(
+                                            'class' => 'btn btn-warning',
+                                            'data-post-id' => $post->id
+                                            ))
                                     !!}
                                     {!! Html::linkRoute('posts.destroy', 'Удалить',
                                         array($post->id),
-                                        array('class' => 'btn btn-danger'))
+                                        array(
+                                            'class' => 'btn btn-danger',
+                                            'data-post-id' => $post->id
+                                        ))
                                      !!}
                                     </div>
                                 </div>
