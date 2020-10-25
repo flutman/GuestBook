@@ -26,11 +26,11 @@ class BladeExtrasServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Blade::if('hasrole', function($expression)
+        Blade::if('hasroles', function($expression)
         {
             if(Auth::user())
             {
-		        if(Auth::user()->hasAnyRole($expression))
+		        if(Auth::user()->hasAnyRoles($expression))
 		        {
                 return true;
                 }

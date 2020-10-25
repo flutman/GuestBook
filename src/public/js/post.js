@@ -10,7 +10,6 @@ $(function(){
        var route = $('#form-data').data('route');
        var form_data = $(this);
        var postId = $("#post_text").data("post-id");
-       console.log("postId: " + postId);
 
        if (postId == null) {
            createPost(route, form_data.serialize());
@@ -23,7 +22,7 @@ $(function(){
     });
 
     function blockEditDeleteInclude(postId) {
-        var path = window.location.href;
+        var path = window.location.href + "posts/";
         var blockEditDelete = $("<div class='col-md-4 text-right'>" +
             "<div class='btn-group' role='group' aria-label='...'>" +
             "<a href='" + path + postId + "/edit' class='btn btn-warning' data-post-id = '" + postId + "'>Редактировать</a>" +
@@ -40,11 +39,11 @@ $(function(){
            url: route,
            data: request,
            success: function (Response) {
-               console.log(Response);
                var editedPost = $(".post_list a.btn-warning[data-post-id = " + postId + "]").closest(".post");
-               editedPost.find("p").text(Response.text);
-               $("#post_text").removeData("post-id");
-               $("#post_text").val("");
+               var textArea = $("#post_text");
+               editedPost.find("p").text(textArea.val());
+               textArea.removeData("post-id");
+               textArea.val("");
            }
         });
     }
@@ -80,7 +79,7 @@ $(function(){
     }
 
     //Delete Post Action Listener
-    $(".post_list a.btn-danger").on("click", function (e) {
+    $(".post_list").on("click", "a.btn-danger", function (e) {
         var postId = $(this).data("postId");
         var delPost = $(this).closest(".post");
         $.ajax({
@@ -95,7 +94,7 @@ $(function(){
     });
 
     //Edit Post Action Listener
-    $(".post_list a.btn-warning").on("click", function (e) {
+    $(".post_list").on("click", "a.btn-warning" , function (e) {
         var postId = $(this).data("postId");
         $.ajax({
             type: "GET",
