@@ -1,4 +1,4 @@
 .composer/
 .idea/
 .bash_history
-docker/mysql/data/*.log
+docker/mysql/data
